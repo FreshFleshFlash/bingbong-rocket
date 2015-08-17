@@ -8,7 +8,7 @@ class Display {
     }
     
     for(int i = 0; i < numOfStars; i++) {
-      stars[i].display();
+      stars[i].display();   
     }
 
     scoreboard.display();

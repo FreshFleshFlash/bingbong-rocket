@@ -1,3 +1,7 @@
+// 3. flame
+// 4. [floatt] clap => rocket, floatt
+// 5. [finish] moon, animation
+
 ///////////////////////////////////////////////
 int NumOfBars=64;     
 import processing.serial.*;
@@ -18,10 +22,14 @@ float BarPercent = 0.4;
 float yRatio = 0.58;
 int BarGap, BarWidth, DivisounsWidth;
 ///////////////////////////////////////////////
+
+int readyMillis;
+int currentMillis;
                
 PImage houseImg, bbImg, joyImg, rocketImg, moonImg, starImg, cloudImg;
 
 boolean start = false;
+boolean ready = false;
 boolean floatt = false;
 boolean go = false;
 boolean finish = false;
@@ -32,13 +40,14 @@ int numOfClouds = 50;
 float scrollX;
 float scrollY = -1600;
 float scrollXSpeed = 0;
-float scrollYSpeed = 3;
+float scrollYSpeed = 0;
 
 float bgS = 50;
 float bgB = 50;
 
 int score = 0;
 
+float malePlayer;
 char player;
 
 Home home;
@@ -60,7 +69,7 @@ void setup(){
   houseImg = loadImage("house.png");
   bbImg = loadImage("bingbong.png");
   joyImg = loadImage("joy.png");
-  rocketImg = loadImage("bbrocket_flame.png");
+  rocketImg = loadImage("bbrocket.png");
   moonImg = loadImage("moon.png");
   starImg = loadImage("star.png");
   cloudImg = loadImage("cloud.png");
@@ -70,7 +79,7 @@ void setup(){
   colorMode(HSB, 360, 100, 100);
   imageMode(CENTER);
   rectMode(CENTER);
-  
+
   process = new Process();
   
   display = new Display();
@@ -93,11 +102,13 @@ void setup(){
 }
 
 void draw(){
+  currentMillis = millis();
   background(221, bgS, bgB);  
    //PrintBars();
         
   translate(scrollX, scrollY);
   scrollX -= scrollXSpeed;
+  scrollY += scrollYSpeed;
   
   process.begin();
     
@@ -147,8 +158,3 @@ void draw(){
 //    text(i, i*DivisounsWidth + LeftMargin + BarWidth/2 + 5, height - GraphYposition + 20 );
 //  }
 //}
-
-
-
-
-

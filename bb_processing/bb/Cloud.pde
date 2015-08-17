@@ -4,7 +4,7 @@ class Cloud {
   float w = cloudImg.width * 0.5;
   float h = cloudImg.height * 0.5;
   boolean met = false;
-  color cloudTint = color(0, 0, 99);  //99
+  color cloudTint = color(0, 0, 99);  
   
   float rainX;
   float rainY;
@@ -29,7 +29,6 @@ class Cloud {
   void minus() {
     if(meet()) {
       cloudTint = color(0, 0, 45);
-      rocket.b -= 10;
       rain();
       met = true;
       score -= 1;
@@ -41,8 +40,8 @@ class Cloud {
       strokeWeight(2);
       stroke(0, 0, 45);
       pushMatrix();
-      translate(x - w/2, y + h/2);
-      for(int i = 0; i < 10; i++) {
+      translate(x, y + h/2);
+      for(int i = -5; i < 5; i++) {
         for(int j = 0; j < 3; j++) {
           line(rainX + i * 10, rainY + j * 15, rainX + i * 10, rainY + j * 15 + rainLeng);
         }
@@ -56,7 +55,7 @@ class Cloud {
   }
 
   boolean meet() {
-    if (met == false && rocket.x > x && rocket.x < x + w && rocket.y > y && rocket.y < y + h) {
+    if (met == false && rocket.x >= x - w/2 && rocket.x <= x + w/2 && rocket.y >= y - h/2 && rocket.y <= y + h/2) {
       return true;
     }
     return false;

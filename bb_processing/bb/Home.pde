@@ -26,8 +26,20 @@ class Home {
     image(bbImg, bbX, bbY, bbW, bbH);
     image(joyImg, joyX, joyY, joyW, joyH);
     textSize(32);
+    text("Who's driving?", x, y - 300);
     text("OR", x, y);
-  }  
+  }
+  
+  void answer() {
+    if(player == 'b') {
+      image(bbImg, bbX, bbY, bbW, bbH);
+      text("BingBong's Driving!", joyX, joyY);
+    } else if(player == 'j') {
+      image(joyImg, joyX, joyY, joyW, joyH);
+      text("Joy's Driving!", bbX, bbY);
+    }
+  }
+
   
   void display() {
     image(houseImg, houseX, houseY, houseW, houseH);

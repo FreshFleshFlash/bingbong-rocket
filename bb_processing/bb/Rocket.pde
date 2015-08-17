@@ -11,26 +11,22 @@ class Rocket {
   
   float flameX = -150;
   
-  float b = 100;
-  
-  
   Rocket() {}
   
   void display() {
-    
-    pushStyle();
-    tint(0, 0, b);
-    image(rocketImg, x, y, w, h);
-    popStyle();
-    //ratio = 1;
-    w = rocketImg.width * ratio;
-    h = rocketImg.height * ratio;
-    
-    ratio = map(y, home.houseY, height/2, 0.1, 1);
+    //flame();
 
+    image(rocketImg, x, y, w, h);
+   
+    w = rocketImg.width * ratio * 2;
+    h = rocketImg.height * ratio * 2;
+
+    ratio = map(y, home.houseY, height, 0.1, 1);
+    if(ratio >= 1) ratio = 1;
+ 
     keyControl();
     //control();
-    //flame();
+    
     
     if(x + scrollX < 0) {
       //game over
@@ -52,30 +48,26 @@ class Rocket {
   
   void control() {
     x += speed; 
-    y = height - pitch * 20;
+    y = height - pitch * 20 + malePlayer;
   }
   
   int numOfLines = 20;
   
   void flame() {
-//    for(int i = 0; i < numOfLines; i++) {
-//      pushMatrix();
-//      translate(x, y);
-//      rotate(radians(-30));
-//      stroke(i * (360 / numOfLines), 70, 70);
-//      line(0, i+100, flameX, i+100);
-//      popMatrix();
-//      flameX += 2;
-//      if(flameX > 30) {
-//        flameX = -150;
-//      }
-//    }
+   for(int i = 0; i < numOfLines; i++) {
+     pushMatrix();
+     translate(x - w/2, y + 40);
+     rotate(radians(-20));
+     stroke(i * (360 / numOfLines), 70, 70);
+     line(0, i, flameX, i);
+     popMatrix();   
+   }
     
   }
   
   void fall() {
-//    if(b <= 0) {
-//      speed = 0;
+//    if(amp <= 0) {
+//      fall..
 //    }
   }
 
