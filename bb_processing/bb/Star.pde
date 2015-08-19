@@ -4,6 +4,7 @@ class Star {
   float w = 30;
   float h = 30;
   boolean met = false;
+  float border = 20;
   
   float twinkleAng;
   
@@ -54,7 +55,7 @@ class Star {
   }  
   
   boolean meet() {
-    if(met == false && rocket.x >= x - rocket.w/2 && rocket.x <= x + rocket.w/2 && rocket.y >= y - rocket.h/2 && rocket.y <= y + rocket.h/2) {
+    if(met == false && rocket.x + rocket.w/2 >= x - w/2 - border && rocket.x + rocket.w/2 <= x + w/2 + border && rocket.y - rocket.h/2 >= y - h/2 - border && rocket.y - rocket.h/2 <= y + h/2 + border) {
       return true;
     } 
     return false;

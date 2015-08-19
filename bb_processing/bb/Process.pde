@@ -1,6 +1,8 @@
 class Process {
   
   int whenToStart = 1000;
+  int whenToFinish = 1500;
+  int baseline = 14;
 
   Process() {}
   
@@ -9,15 +11,15 @@ class Process {
     if(!ready && !start) {
       home.ask();
       
-      if(keyPressed) {  // if(amp > ~~) {
-        if(key == 'b' || key == 'B') {  // if(pitch <= ~~) {       //which pitch? 
+      if(keyPressed || hasAmp) {  
+        if(key == 'b' || key == 'B' || pitch < baseline) {  
           player = 'b';
           //malePlayer = ;  // advantage
-        } else if(key == 'j' || key == 'J') {  // if(pitch >= ~~) {
+        } else if(key == 'j' || key == 'J' || pitch >= baseline) {  
           player = 'j';
         }
         
-        readyMillis = millis();
+        readyTimer = millis();
         
         ready = true;
       }
@@ -26,7 +28,7 @@ class Process {
     if(ready && !start) {   
       home.answer();
       
-      if(currentMillis >= readyMillis + whenToStart) {
+      if(currentMillis >= readyTimer + whenToStart) {
         ready = false;
         start = true;
       }
@@ -35,23 +37,31 @@ class Process {
     
     if(start) {
       display.orderly();
+      controller.brrr();
       
       if(rocket.y <= home.y) floatt = true;
       
-      if(floatt) {
+      if(floatt) {       
         scrollY = -rocket.y + 400;
-        
+ 
         if(scrollY >= 0) go = true;
         
         if(go) {
-          scrollXSpeed = 3;
+          controller.drive();
+          
           scrollYSpeed = 0;
           scrollY = 0;
           
-          if(-scrollX + width / 2 > moon.x) finish = true;
-  
-          if(finish) {
-            scrollXSpeed = 0;  
+          if(-scrollX + width / 2 > moon.x) {
+            scrollXSpeed = 0;
+            if(rocket.x + rocket.w/2 > moon.x) {
+              rocket.speed = 0;
+              rocket.y = height/2;
+              rocket.disappear();
+              
+              finish = true;
+              moon.showScore();
+            }          
           }
         }
       }

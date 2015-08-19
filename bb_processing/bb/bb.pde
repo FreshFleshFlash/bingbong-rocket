@@ -1,7 +1,3 @@
-// 3. flame
-// 4. [floatt] clap => rocket, floatt
-// 5. [finish] moon, animation
-
 ///////////////////////////////////////////////
 int NumOfBars=64;     
 import processing.serial.*;
@@ -21,10 +17,11 @@ int GraphYposition=80;
 float BarPercent = 0.4;
 float yRatio = 0.58;
 int BarGap, BarWidth, DivisounsWidth;
-///////////////////////////////////////////////
+//////////////////////////////////////////////
 
-int readyMillis;
 int currentMillis;
+int readyTimer;
+int finishTimer;
                
 PImage houseImg, bbImg, joyImg, rocketImg, moonImg, starImg, cloudImg;
 
@@ -33,6 +30,8 @@ boolean ready = false;
 boolean floatt = false;
 boolean go = false;
 boolean finish = false;
+
+boolean hasAmp = false;
 
 int numOfStars = 50;
 int numOfClouds = 50;
@@ -59,9 +58,10 @@ Scoreboard scoreboard;
 
 Process process;
 Display display;
+Controller controller;
 
 void setup(){
-//  myPort = new Serial(this, "/dev/tty.usbmodem1411", 57600); 
+  myPort = new Serial(this, "/dev/tty.usbmodem1411", 57600); 
   DivisounsWidth = (width-LeftMargin-RightMArgin)/(NumOfBars); 
   BarWidth = int(BarPercent*float(DivisounsWidth));
   BarGap = DivisounsWidth - BarWidth;
@@ -69,7 +69,7 @@ void setup(){
   houseImg = loadImage("house.png");
   bbImg = loadImage("bingbong.png");
   joyImg = loadImage("joy.png");
-  rocketImg = loadImage("bbrocket.png");
+  rocketImg = loadImage("bbrocket_fullflame.png");
   moonImg = loadImage("moon.png");
   starImg = loadImage("star.png");
   cloudImg = loadImage("cloud.png");
@@ -79,6 +79,8 @@ void setup(){
   colorMode(HSB, 360, 100, 100);
   imageMode(CENTER);
   rectMode(CENTER);
+
+  controller =  new Controller();
 
   process = new Process();
   
@@ -91,20 +93,22 @@ void setup(){
   moon = new Moon();
   
   for(int i = 0; i < numOfStars; i++) {
-    stars[i] = new Star(random(width / 2, width * 3), random(height));
+    stars[i] = new Star(random(width*0.8, width * 3), random(height));
   }  
   
   for(int i = 0; i < numOfClouds; i++) {
-    clouds[i] = new Cloud(random(width * 3), random(height));
+    clouds[i] = new Cloud(random(width*0.8, width * 3), random(height));
   }
   
   scoreboard = new Scoreboard();
 }
 
 void draw(){
+  println(pitch);
+  
   currentMillis = millis();
   background(221, bgS, bgB);  
-   //PrintBars();
+  //PrintBars();
         
   translate(scrollX, scrollY);
   scrollX -= scrollXSpeed;
@@ -112,41 +116,45 @@ void draw(){
   
   process.begin();
     
-//  bgS = map(scrollY, -1600, 0, 0, 50);
-//  bgB = map(scrollY, -1600, 0, 0, 53);
+  bgS = map(scrollY, -1600, 0, 50, 50);
+  bgB = map(scrollY, -1600, 0, 100, 50);
 }
 
-//void serialEvent(Serial myPort) {
-//  int inByte = myPort.read();
-//  
-//  if (firstContact == false) {
-//    if (inByte == 'A') { 
-//      myPort.clear();          
-//      firstContact = true;     
-//      myPort.write('A');       
-//    } 
-//  } else {
-//    serialInArray[serialCount] = inByte;
-//    serialCount++;
-//
-//    if (serialCount > NumOfBars - 1 ) {
-//      for (int x = 0; x < NumOfBars; x++) { 
-//        bars[x] = int (yRatio * height * (serialInArray[x] / 256.0));
-//        
-//        if(amp < bars[x]) {
-//          amp = bars[x];
-//          pitch = x;
-//        }
-//      }
-//      println(max(bars), ":", pitch);
-//      amp = 0;
-//      
-//      myPort.write('A');
-//      serialCount = 0;
-//    }
-//  }
-//}
-//
+void serialEvent(Serial myPort) {
+ int inByte = myPort.read();
+  
+ if (firstContact == false) {
+   if (inByte == 'A') { 
+     myPort.clear();          
+     firstContact = true;     
+     myPort.write('A');       
+   } 
+ } else {
+   serialInArray[serialCount] = inByte;
+   serialCount++;
+
+   if (serialCount > NumOfBars - 1 ) {
+     for (int x = 0; x < NumOfBars; x++) { 
+       bars[x] = int (yRatio * height * (serialInArray[x] / 256.0));
+        
+       if(amp < bars[x]) {
+         amp = bars[x];
+         pitch = x;
+       }
+     }
+     
+     if(pitch > 10) {
+       hasAmp= true;
+     }
+     
+     amp = 0;
+
+     myPort.write('A');
+     serialCount = 0;
+   }
+ }
+}
+
 //void PrintBars(){ 
 //  int c = 0;
 //  for (int i = 0; i < NumOfBars; i++) {

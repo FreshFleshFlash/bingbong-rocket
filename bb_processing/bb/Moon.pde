@@ -11,17 +11,12 @@ class Moon {
   
   void display() {
     image(moonImg, x, y, w, h);
-    
-    //finish();
   }
   
-  void finish() { 
-//    if(-scrollX + width / 2 > x) {
-//      scrollXSpeed = 0;
-//      
-//      for(int i = score; i >= 0; i -= 10) {
-//        image(starImg, x - w/2 + i * 2, y, s.w, s.h);
-//      }   
-//    }  
+  void showScore() { 
+     pushStyle();
+     textSize(50);
+     text("You made it!!!", moon.x - moon.w/2, moon.y);
+     popStyle();
   }
 }

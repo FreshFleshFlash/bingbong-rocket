@@ -26,7 +26,7 @@ class Home {
     image(bbImg, bbX, bbY, bbW, bbH);
     image(joyImg, joyX, joyY, joyW, joyH);
     textSize(32);
-    text("Who's driving?", x, y - 300);
+    text("Who's driving?", bbX - bbW/2, y - 230);
     text("OR", x, y);
   }
   
@@ -40,7 +40,6 @@ class Home {
     }
   }
 
-  
   void display() {
     image(houseImg, houseX, houseY, houseW, houseH);
   }
