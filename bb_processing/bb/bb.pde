@@ -116,7 +116,7 @@ void draw(){
   
   process.begin();
     
-  bgS = map(scrollY, -1600, 0, 50, 50);
+  bgS = map(scrollY, -1600, 0, 45, 50);
   bgB = map(scrollY, -1600, 0, 100, 50);
 }
 

@@ -48,7 +48,7 @@ class Process {
         
         if(go) {
           controller.drive();
-          
+          //scrollXSpeed = 3;
           scrollYSpeed = 0;
           scrollY = 0;
           

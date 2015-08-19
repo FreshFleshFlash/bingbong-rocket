@@ -22,13 +22,13 @@ class Controller {
         rocket.speed = 3;
       } 
       else {
-        scrollXSpeed = 0;
-        rocket.speed = 0;
+       scrollXSpeed = 0;
+       rocket.speed = 0;
           
-        pushStyle();
-        textSize(200);
-        text("SING!", rocket.x, height/2);
-        popStyle();
+       pushStyle();
+       textSize(200);
+       text("SING!", rocket.x, height/2);
+       popStyle();
       }    
     }
   }
