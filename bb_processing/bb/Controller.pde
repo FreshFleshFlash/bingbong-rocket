@@ -15,7 +15,7 @@ class Controller {
   void drive() {
     if(!finish) {
       rocket.x += rocket.speed; 
-      rocket.y = height - (pitch - 10) * 160 + malePlayer;
+      rocket.y = height - (pitch - 9) * 160 + malePlayer;
       
       if(pitch > 5 || keyPressed) {
         scrollXSpeed = 3;
